@@ -117,27 +117,17 @@ document.onkeydown = function (e) {
         
         <!-- Stage 2 -->
         <div id="stage2" class="hidden">
-            <h2>Stage 2: The Numeric Lock</h2>
-            <p>The gate is locked with a code. Solve this equation to proceed:</p>
-            <p><strong>(3 × 4) + (7 × 2) = ?</strong></p>
+            <h2>Stage 2: The Cipher Challenge</h2>
+            <p>Decrypt this message to proceed:</p>
+            <p><strong> Starting with Qatar's capital, how many letters is it to the object of your desires?</strong></p>
             <input type="number" id="answer2" placeholder="Your Answer">
             <button onclick="checkAnswer2()">Submit</button>
             <p id="stage2-fail" class="hidden">Incorrect! Try again.</p>
         </div>
         
-        <!-- Stage 3 -->
-        <div id="stage3" class="hidden">
-            <h2>Stage 3: The Cipher Challenge</h2>
-            <p>Decrypt this message to proceed:</p>
-            <p><strong>"Uifsf jt b usfbtvsf bxbjujoh zpvs xpoefs."</strong></p>
-            <input type="text" id="answer3" placeholder="Your Answer">
-            <button onclick="checkAnswer3()">Submit</button>
-            <p id="stage3-fail" class="hidden">Incorrect! Try again.</p>
-        </div>
-        
+
         <!-- Final Stage -->
         <div id="final" class="hidden">
-            <h2>Congratulations!</h2>
             <p>You have reached the treasure chest! But it remains locked... perhaps this was too easy for you</p>
           <a href="https://runesafe2024.github.io/HackTheRunes/passwordchecker.html">?</a>
                 
@@ -161,7 +151,7 @@ document.onkeydown = function (e) {
         // Check Stage 2 Answer
         function checkAnswer2() {
             const answer = parseInt(document.getElementById('answer2').value);
-            if (answer === 26) { // Correct answer to (3 × 4) + (7 × 2)
+            if (answer === 23) { 
                 document.getElementById('stage2').classList.add('hidden');
                 document.getElementById('stage3').classList.remove('hidden');
             } else {
