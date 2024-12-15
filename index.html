@@ -1,83 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Protected Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-image: url('https://oldschool.runescape.wiki/images/Default_login_screen_mobile.jpg?1ec04');
-            background-size: cover;
-            color: white;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        #content {
-            display: none; /* Initially hidden */
-            margin: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        #password-container {
-            margin: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-        }
-        input, button {
-            margin-top: 10px;
-        }
-    </style>
-</head>
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        background-image: url('https://oldschool.runescape.wiki/images/Default_login_screen_mobile.jpg?1ec04');
+        background-size: cover;
+        background-position: center;
+        color: #d4af37;
+        text-align: center;
+        padding: 20px;
+
+        /* Centering */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    #stages {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%; /* Ensures all elements are centered */
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    input[type="text"], input[type="number"], button {
+        padding: 10px;
+        font-size: 18px;
+        margin: 10px 0;
+        display: block;
+        margin: 10px auto;
+    }
+
+    button {
+        background-color: #282828;
+        color: #d4af37;
+        border: 2px solid #d4af37;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #d4af37;
+        color: #282828;
+    }
+
+    h1, h2 {
+        background-color: rgba(0, 0, 0, 0.7);
+        display: inline-block;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    p {
+        background-color: rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        padding: 5px;
+        border-radius: 8px;
+    }
+</style>
+
+
 <body>
-    <!-- Password Input -->
-    <div id="password-container">
-        <h2>Enter the password to unlock the treasure:</h2>
-        <input type="password" id="passwordInput" placeholder="Password">
-        <button onclick="checkPassword()">Submit</button>
-        <p id="message"></p>
+    <h1>RuneSafe Adventure</h1>
+    <p>Welcome, brave adventurer! Solve the puzzles to find the treasure!</p>
+    
+    <!-- Centered container for all stages -->
+    <div id="stages">
+        <!-- Stage 1 -->
+        <div id="stage1">
+            <h2>Stage 1: The Guardian's Riddle</h2>
+            <p>The guardian asks: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?"</p>
+            <input type="text" id="answer1" placeholder="Your Answer">
+            <button onclick="checkAnswer1()">Submit</button>
+            <p id="stage1-fail" class="hidden">Incorrect! Try again.</p>
+        </div>
+        
+        <!-- Stage 2 -->
+        <div id="stage2" class="hidden">
+            <h2>Stage 2: The Numeric Lock</h2>
+            <p>The gate is locked with a code. Solve this equation to proceed:</p>
+            <p><strong>(3 × 4) + (7 × 2) = ?</strong></p>
+            <input type="number" id="answer2" placeholder="Your Answer">
+            <button onclick="checkAnswer2()">Submit</button>
+            <p id="stage2-fail" class="hidden">Incorrect! Try again.</p>
+        </div>
+        
+        <!-- Stage 3 -->
+        <div id="stage3" class="hidden">
+            <h2>Stage 3: The Cipher Challenge</h2>
+            <p>Decrypt this message to proceed:</p>
+            <p><strong>"Uifsf jt b usfbtvsf bxbjujoh zpvs xpoefs."</strong></p>
+            <p>(Hint: Caesar cipher with a shift of -1)</p>
+            <input type="text" id="answer3" placeholder="Your Answer">
+            <button onclick="checkAnswer3()">Submit</button>
+            <p id="stage3-fail" class="hidden">Incorrect! Try again.</p>
+        </div>
+        
+        <!-- Final Stage -->
+        <div id="final" class="hidden">
+            <h2>Congratulations!</h2>
+            <p>You have reached the treasure chest! Your gift is hidden in the wardrobe!</p>
+        </div>
     </div>
-
-    <!-- Protected Content -->
-    <div id="content">
-        <h1>🎉 Congratulations! 🎉</h1>
-        <p>FLAG{you_cracked_the_password}</p>
-        <p>Here is your hidden treasure: <strong>A secret gift!</strong></p>
-    </div>
-
+    
     <script>
-        // Hash of the correct password "RuneSafe2024" (hashed using SHA-256)
-        const correctHash = "ba2d6f11f8eb6d2e274148db1271ed0088b893f203a2511c0d944057e7e8f07a";
-
-        // Function to hash the input password using SHA-256
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        // Check Stage 1 Answer
+        function checkAnswer1() {
+            const answer = document.getElementById('answer1').value.toLowerCase();
+            if (answer === 'echo') {
+                document.getElementById('stage1').classList.add('hidden');
+                document.getElementById('stage2').classList.remove('hidden');
+            } else {
+                document.getElementById('stage1-fail').classList.remove('hidden');
+            }
         }
 
-        // Function to check if the password is correct
-        async function checkPassword() {
-            const input = document.getElementById("passwordInput").value;
-            const inputHash = await hashPassword(input);
-
-            if (inputHash === correctHash) {
-                document.getElementById("password-container").style.display = "none";
-                document.getElementById("content").style.display = "block";
+        // Check Stage 2 Answer
+        function checkAnswer2() {
+            const answer = parseInt(document.getElementById('answer2').value);
+            if (answer === 26) { // Correct answer to (3 × 4) + (7 × 2)
+                document.getElementById('stage2').classList.add('hidden');
+                document.getElementById('stage3').classList.remove('hidden');
             } else {
-                document.getElementById("message").textContent = "Incorrect password. Try again.";
+                document.getElementById('stage2-fail').classList.remove('hidden');
+            }
+        }
+
+        // Check Stage 3 Answer
+        function checkAnswer3() {
+            const answer = document.getElementById('answer3').value.toLowerCase();
+            if (answer === 'there is a treasure awaiting your wonder') {
+                document.getElementById('stage3').classList.add('hidden');
+                document.getElementById('final').classList.remove('hidden');
+            } else {
+                document.getElementById('stage3-fail').classList.remove('hidden');
             }
         }
     </script>
 </body>
-</html>
