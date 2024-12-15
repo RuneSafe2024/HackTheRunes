@@ -79,7 +79,7 @@
         <!-- Stage 1 -->
         <div id="stage1">
             <h2>Stage 1: The Guardian's Riddle</h2>
-            <p>The guardian asks: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?"</p>
+            <p>The guardian asks: "If something really isn't right, it's...?"</p>
             <input type="text" id="answer1" placeholder="Your Answer">
             <button onclick="checkAnswer1()">Submit</button>
             <p id="stage1-fail" class="hidden">Incorrect! Try again.</p>
@@ -100,7 +100,6 @@
             <h2>Stage 3: The Cipher Challenge</h2>
             <p>Decrypt this message to proceed:</p>
             <p><strong>"Uifsf jt b usfbtvsf bxbjujoh zpvs xpoefs."</strong></p>
-            <p>(Hint: Caesar cipher with a shift of -1)</p>
             <input type="text" id="answer3" placeholder="Your Answer">
             <button onclick="checkAnswer3()">Submit</button>
             <p id="stage3-fail" class="hidden">Incorrect! Try again.</p>
@@ -121,7 +120,7 @@
         // Check Stage 1 Answer
         function checkAnswer1() {
             const answer = document.getElementById('answer1').value.toLowerCase();
-            if (answer === 'echo') {
+            if (answer === 'left') {
                 document.getElementById('stage1').classList.add('hidden');
                 document.getElementById('stage2').classList.remove('hidden');
             } else {
