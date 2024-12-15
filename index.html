@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://oldschool.runescape.wiki/images/Default_login_screen_mobile.jpg?1ec04');
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #content {
+            display: none; /* Initially hidden */
+            margin: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        #password-container {
+            margin: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        input, button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Input -->
+    <div id="password-container">
+        <h2>Enter the password to unlock the treasure:</h2>
+        <input type="password" id="passwordInput" placeholder="Password">
+        <button onclick="checkPassword()">Submit</button>
+        <p id="message"></p>
+    </div>
+
+    <!-- Protected Content -->
+    <div id="content">
+        <h1>🎉 Congratulations! 🎉</h1>
+        <p>FLAG{you_cracked_the_password}</p>
+        <p>Here is your hidden treasure: <strong>A secret gift!</strong></p>
+    </div>
+
+    <script>
+        // Hash of the correct password "RuneSafe2024" (hashed using SHA-256)
+        const correctHash = "ba2d6f11f8eb6d2e274148db1271ed0088b893f203a2511c0d944057e7e8f07a";
+
+        // Function to hash the input password using SHA-256
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Function to check if the password is correct
+        async function checkPassword() {
+            const input = document.getElementById("passwordInput").value;
+            const inputHash = await hashPassword(input);
+
+            if (inputHash === correctHash) {
+                document.getElementById("password-container").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            } else {
+                document.getElementById("message").textContent = "Incorrect password. Try again.";
+            }
+        }
+    </script>
+</body>
+</html>
